@@ -1,0 +1,20 @@
+<svg width="900" height="600" viewBox="-30 -20 60 40" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @keyframes spinSun {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .rotating-sun {
+      animation: spinSun 18s linear infinite;
+      transform-origin: 0px 0px;
+    }
+  </style>
+  <path fill="#000094" d="M-30-20h60v40H-30z"/>
+  <g class="rotating-sun">
+    <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0" to="360" dur="18s" repeatCount="indefinite"/>
+    <path id="a" d="M0 4 15 0 0-4-15 0zM4 0 0 15-4 0 0-15z" fill="#fff"/>
+    <use transform="rotate(30)" href="#a"/>
+    <use transform="rotate(60)" href="#a"/>
+    <circle fill="#fff" stroke="#000094" r="8"/>
+  </g>
+</svg>

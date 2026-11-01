@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>中華民國國民瀏覽器</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  html, body {
+    width: 100%;
+    height: 100%;
+    background-color: #000094;
+    color: #FFFFFF;
+    font-family: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+    overflow-x: hidden;
+  }
+  /* 內嵌原版比例青天白日旗並讓中央白日持續勻速旋轉 */
+  .bg-flag {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000094;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .bg-flag svg {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  @keyframes rotateWhiteSun {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  #white-sun-group {
+    transform-origin: 0px 0px;
+    animation: rotateWhiteSun 16s linear infinite;
+  }
+  .bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(0, 0, 148, 0.12) 0%, rgba(0, 0, 110, 0.42) 100%);
+    z-index: 2;
+  }
+  .main-wrapper {
+    position: relative;
+    z-index: 10;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 18px;
+    text-align: center;
+  }
+  .portrait-frame {
+    width: 132px;
+    height: 132px;
+    border-radius: 50%;
+    padding: 4px;
+    background: linear-gradient(135deg, #FFE066 0%, #D4AF37 50%, #AA7C11 100%);
+    box-shadow: 0 0 0 4px #000094, 0 8px 28px rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .portrait-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+    background-color: #000094;
+  }
+  .motto-plaque {
+    margin-top: 16px;
+    padding: 8px 30px;
+    background: linear-gradient(135deg, rgba(0, 0, 148, 0.92) 0%, rgba(0, 24, 168, 0.92) 50%, rgba(0, 0, 148, 0.92) 100%);
+    border: 2.2px solid #D4AF37;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(212, 175, 55, 0.35);
+    color: #FFD700;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 10px;
+    text-indent: 10px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.9);
+  }
+  .sub-motto {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #FFFFFF;
+    background-color: rgba(220, 0, 0, 0.88);
+    border: 1px solid rgba(255, 215, 0, 0.6);
+    padding: 3px 16px;
+    border-radius: 14px;
+    letter-spacing: 3px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+  }
+  .search-container {
+    margin-top: 26px;
+    width: 100%;
+    max-width: 420px;
+  }
+  .search-box {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: rgba(0, 0, 105, 0.88);
+    border: 2px solid #D4AF37;
+    border-radius: 30px;
+    padding: 4px 6px 4px 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+  }
+  .search-logo {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 20%;
+    border: 1.5px solid #D4AF37;
+    flex-shrink: 0;
+  }
+  .search-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 10px 12px;
+    outline: none;
+  }
+  .search-input::placeholder {
+    color: rgba(255, 255, 255, 0.78);
+  }
+  .search-btn {
+    background: linear-gradient(135deg, #FFD700 0%, #D4AF37 100%);
+    color: #000094;
+    border: none;
+    border-radius: 22px;
+    padding: 9px 18px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .quick-links {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .quick-btn {
+    background: rgba(0, 0, 120, 0.82);
+    color: #FFD700;
+    border: 1.2px solid #D4AF37;
+    padding: 7px 16px;
+    border-radius: 18px;
+    font-size: 13px;
+    text-decoration: none;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.45);
+  }
+</style>
+</head>
+<body>
+  <div class="bg-flag">
+    <svg viewBox="-30 -20 60 40" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#000094" d="M-30-20h60v40H-30z"/>
+      <g id="white-sun-group">
+        <path id="ray" d="M0 4 15 0 0-4-15 0zM4 0 0 15-4 0 0-15z" fill="#fff"/>
+        <use transform="rotate(30)" href="#ray"/>
+        <use transform="rotate(60)" href="#ray"/>
+        <circle fill="#fff" stroke="#000094" stroke-width="1" r="8"/>
+      </g>
+    </svg>
+  </div>
+  <div class="bg-overlay"></div>
+  <div class="main-wrapper">
+    <div class="portrait-frame">
+      <img class="portrait-img" src="portrait.jpg" alt="孫中山先生">
+    </div>
+    <div class="motto-plaque">天下為公</div>
+    <div class="sub-motto">民族 ・ 民權 ・ 民生</div>
+
+    <div class="search-container">
+      <form id="searchForm" class="search-box">
+        <img class="search-logo" src="portrait.jpg" alt="Logo">
+        <input id="searchInput" class="search-input" type="search" placeholder="天下為公 — 搜尋中國國民黨官網" autocomplete="off">
+        <button type="submit" class="search-btn">搜尋</button>
+      </form>
+    </div>
+
+    <div class="quick-links">
+      <a class="quick-btn" href="https://www.kmt.org.tw/">中國國民黨全球資訊網</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var q = document.getElementById('searchInput').value.trim();
+      if (q) {
+        window.location.href = 'https://www.kmt.org.tw/search?q=' + encodeURIComponent(q);
+      } else {
+        window.location.href = 'https://www.kmt.org.tw/';
+      }
+    });
+  </script>
+</body>
+</html>
